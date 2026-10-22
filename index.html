@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIMA Books | Find the Perfect Books for Your Little One</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <div class="brand-mark">BIMA</div>
+                <div class="brand-sub">BOOKS</div>
+            </div>
+            <nav class="site-nav">
+                <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">Instagram</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="container hero-inner">
+                <div class="hero-content">
+                    <span class="eyebrow">For babies & little explorers</span>
+                    <h1>Find the perfect books to grow with your little one</h1>
+                    <p>Take our playful 2-minute quiz. We'll build a curated stack tailored to their age, interests and reading style - just like flipping through the sweetest board books together.</p>
+                    <button class="btn btn-primary" id="startQuiz">Start the book finder</button>
+                    <div class="hero-badges">
+                        <div class="badge">Board books & lift-the-flaps</div>
+                        <div class="badge">Soft, sturdy & baby-safe</div>
+                        <div class="badge">Made for snuggles</div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="book-stack">
+                        <div class="book book-1"></div>
+                        <div class="book book-2"></div>
+                        <div class="book book-3"></div>
+                    </div>
+                    <div class="bubble bubble-1">Bedtime</div>
+                    <div class="bubble bubble-2">First words</div>
+                    <div class="bubble bubble-3">Animals</div>
+                </div>
+            </div>
+            <div class="hero-wave"></div>
+        </section>
+
+        <section class="quiz" id="quiz" aria-live="polite">
+            <div class="container">
+                <div class="quiz-header">
+                    <div class="progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text"><span id="currentStep">1</span> of <span id="totalSteps">6</span></div>
+                </div>
+
+                <div class="quiz-card" id="quizCard">
+                    <!-- Steps injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section class="results" id="results">
+            <div class="container">
+                <div class="results-header">
+                    <span class="eyebrow">Your little one's stack</span>
+                    <h2>Snuggle-ready picks just for you</h2>
+                    <p>Based on your answers, here's a cozy stack to grow with them. Save it, share it, or shop the look.</p>
+                </div>
+                <div class="stack-grid" id="stackGrid"></div>
+                <div class="results-actions">
+                    <button class="btn btn-ghost" id="restartQuiz">Take quiz again</button>
+                    <a class="btn btn-primary" href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">See more on Instagram</a>
+                </div>
+                <div class="sunk-cost-note">
+                    <strong>Tip for engagement:</strong> You built this stack step by step - that's the magic! After curating picks, people are far more likely to save or shop what they just created.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="brand">
+                <div class="brand-mark">BIMA</div>
+                <div class="brand-sub">BOOKS</div>
+            </div>
+            <p>Made with snuggles for little readers.</p>
+            <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">@bima_books</a>
+        </div>
+    </footer>
+
+    <template id="stepTemplate">
+        <div class="step">
+            <div class="step-header">
+                <h2 class="step-title"></h2>
+                <p class="step-subtitle"></p>
+            </div>
+            <div class="options-grid"></div>
+            <div class="step-actions">
+                <button class="btn btn-ghost btn-back">Back</button>
+                <button class="btn btn-primary btn-next" disabled>Next</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="optionTemplate">
+        <button class="option-card">
+            <div class="option-emoji"></div>
+            <div class="option-text">
+                <div class="option-title"></div>
+                <div class="option-desc"></div>
+            </div>
+            <div class="option-check">✓</div>
+        </button>
+    </template>
+
+    <template id="bookCardTemplate">
+        <article class="book-card">
+            <div class="book-cover"></div>
+            <div class="book-info">
+                <h3 class="book-title"></h3>
+                <p class="book-reason"></p>
+                <span class="book-tag"></span>
+            </div>
+        </article>
+    </template>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
