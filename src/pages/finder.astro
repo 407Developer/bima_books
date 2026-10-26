@@ -1,0 +1,186 @@
+---
+import '../styles/global.css';
+import '../styles/finder.css';
+import { catalog } from '../data/catalog.js';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Answer five quick questions and get three BIMA Books picks matched to your child's age, interests and reading stage. Priced books and toys, delivered in Abuja.">
+    <title>Find Their Books | Bima Books</title>
+    <meta name="theme-color" content="#0e1840">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/fonts/caprasimo-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/atkinson-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="/" aria-label="Bima Books home">
+                <span class="brand-mark">Bima Books</span>
+                <span class="brand-sub">STORYBOOKS & TOYS</span>
+            </a>
+            <nav class="site-nav">
+                <a href="/">Shop all</a>
+                <a href="/checkout" class="nav-order">Order <span class="nav-count" data-cart-count>0</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero finder-hero" id="hero">
+            <div class="container hero-inner">
+                <div class="hero-content">
+                    <span class="eyebrow">The BIMA book finder</span>
+                    <h1>Their next favourite book is closer than you think.</h1>
+                    <p>Five quick questions about their age, mood and interests. We'll shortlist three real, priced picks from the BIMA shelf.</p>
+                    <button class="btn btn-primary" id="startQuiz">Start the book finder</button>
+                    <div class="hero-badges">
+                        <div class="badge">Priced picks</div>
+                        <div class="badge">Ages 0–12</div>
+                        <div class="badge">Order on WhatsApp</div>
+                    </div>
+                    <p class="finder-back"><a href="/">Browse the whole shelf instead</a></p>
+                </div>
+                <div class="hero-visual">
+                    <div class="finder-moon">
+                        <img src="/img/moon.webp" alt="A mother reading a Bima Books story to her toddler" width="720" height="720" fetchpriority="high">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quiz" id="quiz" aria-live="polite">
+            <div class="container">
+                <div class="quiz-topbar">
+                    <button class="quiz-exit" id="exitQuiz" type="button">← Home</button>
+                    <div class="quiz-header">
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="progress-text"><span id="currentStep">1</span> of <span id="totalSteps">5</span></div>
+                    </div>
+                </div>
+                <div class="quiz-card" id="quizCard"></div>
+            </div>
+        </section>
+
+        <section class="results" id="results">
+            <div class="container">
+                <div class="results-header">
+                    <span class="eyebrow">Your little one's stack</span>
+                    <h2>Three good picks for your little reader.</h2>
+                    <p>Chosen from the real Bima shelf, based on your answers. Add any pick to your order, then send it over on WhatsApp.</p>
+                </div>
+                <div class="stack-grid" id="stackGrid"></div>
+                <div class="results-actions">
+                    <button class="btn btn-ghost" id="restartQuiz">Take quiz again</button>
+                    <button class="btn btn-soft" id="addAllPicks">Add all 3 to order</button>
+                    <a class="btn btn-whatsapp" id="whatsappOrder" href="#" target="_blank" rel="noopener">Order via WhatsApp</a>
+                    <a class="btn btn-ghost" href="/">Shop all books</a>
+                </div>
+
+                <div class="shelf-section">
+                    <div class="shelf-header">
+                        <div>
+                            <span class="eyebrow">More from the shelf</span>
+                            <h3>Keep browsing</h3>
+                        </div>
+                        <a class="text-link" href="/checkout">View my order →</a>
+                    </div>
+                    <div class="shelf-grid" id="shelfGrid"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <a class="brand" href="/">
+                <span class="brand-mark">Bima Books</span>
+                <span class="brand-sub">STORYBOOKS & TOYS</span>
+            </a>
+            <p>Hand-picked books and toys for ages 0 to 12. Abuja delivery.</p>
+            <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">@bima_books</a>
+        </div>
+    </footer>
+
+    <a class="cart-fab" href="/checkout" data-cart-fab aria-label="View your order">
+        <span class="cart-fab-label">Your order</span>
+        <span class="cart-fab-count" data-cart-count>0</span>
+    </a>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <template id="stepTemplate">
+        <div class="step">
+            <div class="step-header">
+                <h2 class="step-title"></h2>
+                <p class="step-subtitle"></p>
+            </div>
+            <div class="options-grid"></div>
+            <div class="step-actions">
+                <button class="btn btn-ghost btn-back" type="button">Back</button>
+                <button class="btn btn-primary btn-next" type="button" disabled>Next</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="optionTemplate">
+        <button class="option-card" type="button">
+            <span class="option-emoji"></span>
+            <span class="option-text">
+                <span class="option-title"></span>
+                <span class="option-desc"></span>
+            </span>
+            <span class="option-check">✓</span>
+        </button>
+    </template>
+
+    <template id="bookCardTemplate">
+        <article class="book-card">
+            <div class="book-cover">
+                <picture>
+                    <source type="image/webp">
+                    <img class="book-cover-img" loading="lazy" decoding="async" alt="">
+                </picture>
+                <span class="book-badge"></span>
+            </div>
+            <div class="book-info">
+                <span class="book-tag"></span>
+                <h3 class="book-title"></h3>
+                <p class="book-author"></p>
+                <p class="book-reason"></p>
+                <div class="book-actions">
+                    <button class="btn btn-primary add-to-order" type="button">Add to order</button>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template id="shelfCardTemplate">
+        <article class="shelf-card">
+            <div class="shelf-cover">
+                <picture>
+                    <source type="image/webp">
+                    <img class="shelf-cover-img" loading="lazy" decoding="async" alt="">
+                </picture>
+            </div>
+            <div class="shelf-info">
+                <h3 class="shelf-title"></h3>
+                <p class="shelf-author"></p>
+                <button class="shelf-add" type="button">Add</button>
+            </div>
+        </article>
+    </template>
+
+    <script is:inline define:vars={{ books: catalog }}>
+        window.BIMA_CATALOG = books;
+    </script>
+    <script is:inline src="/config.js"></script>
+    <script is:inline src="/cart.js"></script>
+    <script is:inline src="/app.js"></script>
+</body>
+</html>

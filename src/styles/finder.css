@@ -1,0 +1,508 @@
+@font-face {
+    font-family: Caprasimo;
+    src: url('/fonts/caprasimo-latin.woff2') format('woff2');
+    font-display: swap;
+    unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Atkinson Hyperlegible Next';
+    src: url('/fonts/atkinson-latin-400.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Atkinson Hyperlegible Next';
+    src: url('/fonts/atkinson-latin-700.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    --night: #0e1840;
+    --dip: #18286a;
+    --resist: #33489a;
+    --moon: #f5efe0;
+    --mist: #c0c7e6;
+    --fire: #ff6b2c;
+    --fire-hover: #ff8a57;
+    --harmattan: #f5c443;
+    --dusk: #4a5078;
+    --ember: #a83a0a;
+    --sand: #ebe1c8;
+    --cream: var(--moon);
+    --peach: var(--sand);
+    --coral: var(--fire);
+    --rose: var(--harmattan);
+    --mint: var(--harmattan);
+    --sky: var(--mist);
+    --butter: var(--harmattan);
+    --plum: var(--night);
+    --choco: var(--night);
+    --text: var(--night);
+    --text-light: var(--dusk);
+    --white: #fffaf0;
+    --shadow: 0 30px 60px -40px rgba(14, 24, 64, 0.45);
+}
+
+* {
+    font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--night);
+}
+
+body {
+    background: var(--moon);
+    color: var(--night);
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+.brand-mark,
+.shelf-title {
+    font-family: Caprasimo, Georgia, serif;
+    font-weight: 400;
+}
+
+.site-header {
+    background: var(--night);
+    border-bottom: 1px solid var(--resist);
+    backdrop-filter: none;
+}
+
+.header-inner {
+    padding-block: 12px;
+}
+
+.brand-mark {
+    color: var(--moon);
+    font-size: 1.5rem;
+    letter-spacing: 0;
+}
+
+.brand-sub {
+    color: var(--mist);
+    font-size: 0.62rem;
+    letter-spacing: 0.34em;
+}
+
+.site-nav a {
+    color: var(--moon);
+}
+
+.site-nav a:hover {
+    color: var(--harmattan);
+}
+
+.nav-count {
+    background: var(--harmattan);
+    color: var(--night);
+}
+
+.finder-hero {
+    background: var(--night) url('/adire.svg') 0 0 / 96px;
+    border-bottom: 1px solid var(--resist);
+    padding: clamp(40px, 8vw, 84px) 0;
+}
+
+.finder-hero .hero-content h1 {
+    color: var(--moon);
+    font-family: Caprasimo, Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.6rem);
+    line-height: 1.03;
+}
+
+.finder-hero .hero-content p {
+    color: var(--mist);
+}
+
+.finder-hero .eyebrow {
+    background: rgba(245, 195, 67, 0.12);
+    border-color: rgba(245, 195, 67, 0.36);
+    color: var(--harmattan);
+}
+
+.finder-hero .btn-primary {
+    background: var(--fire);
+    color: var(--night);
+    box-shadow: 0 28px 44px -30px rgba(0, 0, 0, 0.85);
+}
+
+.finder-hero .btn-primary:hover:not(:disabled) {
+    background: var(--fire-hover);
+    color: var(--night);
+}
+
+.finder-hero .badge {
+    background: rgba(245, 239, 224, 0.08);
+    border-color: rgba(192, 199, 230, 0.35);
+    color: var(--moon);
+}
+
+.finder-back {
+    margin-top: 18px;
+    font-size: 0.95rem;
+}
+
+.finder-back a {
+    color: var(--mist);
+    font-weight: 700;
+}
+
+.finder-back a:hover {
+    color: var(--harmattan);
+}
+
+.finder-moon {
+    width: min(390px, 82vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 40px 70px -45px rgba(0, 0, 0, 0.9);
+}
+
+.finder-moon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.quiz {
+    background: var(--moon);
+}
+
+.quiz-exit {
+    color: var(--dusk);
+}
+
+.quiz-exit:hover {
+    color: var(--ember);
+}
+
+.progress {
+    background: var(--sand);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--fire), var(--harmattan));
+}
+
+.progress-text {
+    color: var(--dusk);
+}
+
+.quiz-card {
+    background: var(--white);
+    border: 1px solid var(--sand);
+    box-shadow: var(--shadow);
+}
+
+.step-title {
+    color: var(--night);
+    font-family: Caprasimo, Georgia, serif;
+}
+
+.step-subtitle {
+    color: var(--dusk);
+}
+
+.options-grid {
+    gap: 12px;
+}
+
+.option-card {
+    border-radius: 16px;
+    border-color: var(--sand);
+    background: var(--moon);
+    padding: 14px 18px;
+}
+
+.option-card:hover {
+    border-color: var(--fire);
+    transform: translateY(-2px);
+}
+
+.option-card.active {
+    border-color: var(--night);
+    background: var(--harmattan);
+    box-shadow: inset 0 0 0 1px var(--night);
+    transform: none;
+}
+
+.option-emoji {
+    background: rgba(14, 24, 64, 0.06);
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+.option-card.active .option-emoji {
+    background: rgba(14, 24, 64, 0.1);
+}
+
+.option-title {
+    color: var(--night);
+}
+
+.option-desc {
+    color: var(--dusk);
+}
+
+.option-check {
+    background: var(--sand);
+    color: var(--night);
+}
+
+.option-card.active .option-check {
+    background: var(--night);
+    color: var(--harmattan);
+}
+
+.btn {
+    border-radius: 12px;
+    font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background: var(--fire);
+    color: var(--night);
+    box-shadow: 0 24px 38px -28px rgba(14, 24, 64, 0.75);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--fire-hover);
+    color: var(--night);
+}
+
+.btn-ghost {
+    color: var(--night);
+    box-shadow: inset 0 0 0 2px var(--mist);
+}
+
+.btn-ghost:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--night);
+}
+
+.btn-soft {
+    background: var(--harmattan);
+    color: var(--night);
+    border-color: var(--harmattan);
+}
+
+.btn-whatsapp {
+    background: var(--night);
+    color: var(--moon);
+    box-shadow: 0 24px 38px -30px rgba(14, 24, 64, 0.8);
+}
+
+.btn-whatsapp:hover:not(:disabled) {
+    background: var(--dip);
+}
+
+.btn.is-added,
+.add-to-order.is-added {
+    background: var(--harmattan);
+    color: var(--night);
+}
+
+.results {
+    background: var(--moon);
+}
+
+.results-header h2 {
+    color: var(--night);
+    font-family: Caprasimo, Georgia, serif;
+}
+
+.results-header p {
+    color: var(--dusk);
+}
+
+.book-card {
+    background: var(--white);
+    border-color: var(--sand);
+}
+
+.book-cover {
+    background: var(--sand);
+}
+
+.book-badge {
+    background: var(--night);
+    color: var(--harmattan);
+}
+
+.book-tag {
+    background: var(--night);
+    color: var(--harmattan);
+}
+
+.book-title {
+    color: var(--night);
+    font-family: Caprasimo, Georgia, serif;
+    font-weight: 400;
+}
+
+.book-author {
+    color: var(--ember);
+    font-weight: 700;
+}
+
+.book-reason {
+    color: var(--dusk);
+}
+
+.book-actions .btn {
+    border-radius: 10px;
+}
+
+.shelf-section {
+    border-top-color: var(--sand);
+}
+
+.shelf-header h3 {
+    color: var(--night);
+    font-family: Caprasimo, Georgia, serif;
+    font-weight: 400;
+}
+
+.text-link {
+    color: var(--ember);
+}
+
+.shelf-card {
+    background: var(--white);
+    border-color: var(--sand);
+}
+
+.shelf-title {
+    color: var(--night);
+}
+
+.shelf-author {
+    color: var(--ember);
+    font-weight: 700;
+}
+
+.shelf-add {
+    border-color: var(--mist);
+    color: var(--night);
+    background: var(--moon);
+}
+
+.shelf-add.is-added {
+    background: var(--harmattan);
+    border-color: var(--harmattan);
+    color: var(--night);
+}
+
+.cart-fab {
+    background: var(--night);
+    color: var(--moon);
+}
+
+.cart-fab-count {
+    background: var(--harmattan);
+    color: var(--night);
+}
+
+.toast {
+    background: var(--night);
+    color: var(--moon);
+}
+
+.site-footer {
+    background: var(--night);
+    color: var(--mist);
+    border-top: 1px solid var(--resist);
+}
+
+.site-footer .brand-mark {
+    color: var(--moon);
+}
+
+.site-footer .brand-sub {
+    color: var(--mist);
+}
+
+.footer-inner p {
+    color: var(--mist);
+}
+
+.footer-inner a {
+    color: var(--moon);
+}
+
+.footer-inner a:hover {
+    color: var(--harmattan);
+}
+
+@media (max-width: 920px) {
+    .finder-hero {
+        padding: 22px 0 38px;
+    }
+
+    .finder-hero .hero-content h1 {
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+    }
+
+    .finder-moon {
+        width: min(280px, 72vw);
+    }
+
+    .finder-hero .hero-badges {
+        display: flex;
+    }
+
+    .finder-back {
+        margin-top: 12px;
+    }
+
+    .step-actions {
+        background: linear-gradient(180deg, rgba(255, 250, 240, 0), var(--white) 26%);
+    }
+}
+
+@media (max-width: 420px) {
+    .brand-sub {
+        display: none;
+    }
+
+    .site-nav {
+        gap: 12px;
+    }
+
+    .site-nav a {
+        font-size: 0.88rem;
+    }
+}
+.brand-mark,
+.site-nav a {
+    white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+    .brand-mark {
+        font-size: 1.2rem;
+    }
+
+    .site-nav {
+        gap: 8px;
+    }
+
+    .site-nav a {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .site-nav a:first-child {
+        display: none;
+    }
+}

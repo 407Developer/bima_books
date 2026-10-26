@@ -1,5 +1,5 @@
 window.BIMA_CONFIG = {
-  whatsappNumber: '',
+  whatsappNumber: '2349025742445',
   paystackPublicKey: '',
   currency: 'NGN',
   prices: {},

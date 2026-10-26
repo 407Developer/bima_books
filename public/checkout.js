@@ -1,5 +1,5 @@
 (function () {
-  const books = window.BIMA_BOOKS || [];
+  const books = window.BIMA_CATALOG || [];
   const config = window.BIMA_CONFIG || {};
   const cart = window.BimaCart;
 
@@ -20,19 +20,21 @@
   let canPayOnline = false;
   let currentTotal = null;
 
-  function getBooks() {
-    return cart.read().map((id) => books.find((book) => book.id === id)).filter(Boolean);
+  function getItems() {
+    return cart.entries()
+      .map(([id, qty]) => ({ book: books.find((item) => item.id === id), qty }))
+      .filter((item) => item.book);
   }
 
   function priceFor(book) {
-    return Number((config.prices || {})[book.id] || 0);
+    return Number(book.price || 0);
   }
 
   function calculateTotal(items) {
     if (items.length === 0) return null;
-    const prices = items.map(priceFor);
+    const prices = items.map((item) => priceFor(item.book));
     if (prices.some((price) => !price || price <= 0)) return null;
-    return prices.reduce((sum, price) => sum + price, 0);
+    return items.reduce((sum, item) => sum + priceFor(item.book) * item.qty, 0);
   }
 
   function formatMoney(amount) {
@@ -44,14 +46,11 @@
   }
 
   function render() {
-    const ids = cart.read();
-    const items = getBooks();
+    const items = getItems();
     orderList.innerHTML = '';
     orderEmpty.hidden = items.length > 0;
 
-    ids.forEach((id) => {
-      const book = books.find((item) => item.id === id);
-      if (!book) return;
+    items.forEach(({ book, qty }) => {
       const row = document.createElement('div');
       row.className = 'order-item';
       row.innerHTML = `
@@ -59,13 +58,15 @@
         <div class="order-info">
           <span class="order-title"></span>
           <span class="order-author"></span>
+          <span class="order-qty"></span>
         </div>
         <button class="order-remove" type="button">Remove</button>
       `;
       row.querySelector('.order-title').textContent = book.title;
-      row.querySelector('.order-author').textContent = book.author ? `by ${book.author}` : '';
+      row.querySelector('.order-author').textContent = `${book.note} · Ages ${book.ages[0]}–${book.ages[1]}`;
+      row.querySelector('.order-qty').textContent = `${qty} × ${formatMoney(priceFor(book))} = ${formatMoney(priceFor(book) * qty)}`;
       row.querySelector('.order-remove').addEventListener('click', () => {
-        cart.remove(id);
+        cart.remove(book.id);
         showToast('Removed from your order');
       });
       orderList.appendChild(row);
@@ -109,7 +110,7 @@
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const items = getBooks();
+    const items = getItems();
     if (items.length === 0) {
       showToast('Your order is empty. Add a book first.');
       return;
@@ -137,10 +138,9 @@
   });
 
   function buildMessage(items, data, total, paid, reference) {
-    const lines = items.map((book, index) => {
-      const price = priceFor(book);
-      const priceText = price ? ` — ${formatMoney(price)}` : '';
-      return `${index + 1}. ${book.title}${book.author ? ` — ${book.author}` : ''}${priceText}`;
+    const lines = items.map(({ book, qty }, index) => {
+      const price = priceFor(book) * qty;
+      return `${index + 1}. ${qty} x ${book.title} — ${formatMoney(price)}`;
     });
 
     const totalText = total ? formatMoney(total) : 'Please confirm the total and delivery fee';
@@ -149,7 +149,7 @@
       : 'To be confirmed on WhatsApp';
 
     return [
-      'Hi BIMA Books! I would like to place an order.',
+      'Hi Bima Books! I would like to place an order.',
       '',
       'BOOKS',
       ...lines,
@@ -167,7 +167,7 @@
       data.note ? `Note: ${data.note}` : '',
       '',
       'Thank you!'
-    ].filter((line) => line !== '').join('\n');
+    ].filter((line) => line !== false && line !== null && line !== undefined).join('\n');
   }
 
   function sendWhatsApp(items, data, total, paid, reference) {
@@ -215,7 +215,7 @@
             {
               display_name: 'Books',
               variable_name: 'books',
-              value: items.map((book) => book.title).join(', ')
+              value: items.map(({ book, qty }) => `${qty} x ${book.title}`).join(', ')
             },
             {
               display_name: 'Delivery',

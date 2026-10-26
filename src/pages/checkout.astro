@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
-import { books } from '../data/books.js';
+import '../styles/finder.css';
+import '../styles/checkout.css';
+import { catalog } from '../data/catalog.js';
 ---
 
 <!DOCTYPE html>
@@ -8,22 +10,23 @@ import { books } from '../data/books.js';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Review your BIMA Books order and send it to us on WhatsApp. Cosy books for babies and little readers.">
-    <title>Your Order | BIMA Books</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Review your Bima Books order and send it to us on WhatsApp. Storybooks and learning toys, delivered in Abuja.">
+    <title>Your Order | Bima Books</title>
+    <meta name="theme-color" content="#0e1840">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/fonts/caprasimo-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/atkinson-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
     <header class="site-header">
         <div class="container header-inner">
-            <a class="brand" href="/" aria-label="BIMA Books home">
-                <span class="brand-mark">BIMA</span>
-                <span class="brand-sub">BOOKS</span>
+            <a class="brand" href="/" aria-label="Bima Books home">
+                <span class="brand-mark">Bima Books</span>
+                <span class="brand-sub">STORYBOOKS & TOYS</span>
             </a>
             <nav class="site-nav">
-                <a href="/" class="nav-order">Book finder</a>
-                <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">Instagram</a>
+                <a href="/">Shop all</a>
+                <a href="/finder">Find their books</a>
             </nav>
         </div>
     </header>
@@ -32,9 +35,9 @@ import { books } from '../data/books.js';
         <div class="container">
             <div class="checkout-header">
                 <span class="eyebrow">Your order</span>
-                <h1>Let's get these books home</h1>
-                <p>Check your stack, add your delivery details, then send it straight to BIMA on WhatsApp. We'll confirm availability, delivery and payment with you personally.</p>
-                <a class="checkout-back" href="/">← Back to the book finder</a>
+                <h1>Let's get these books home.</h1>
+                <p>Check your stack, add your delivery details, then send it straight to Bima Books on WhatsApp. We'll confirm availability, delivery and payment with you personally.</p>
+                <a class="checkout-back" href="/">← Back to the shelf</a>
             </div>
 
             <div class="checkout-grid">
@@ -42,7 +45,7 @@ import { books } from '../data/books.js';
                     <h2 id="order-title">Your book stack</h2>
                     <div class="order-list" id="orderList"></div>
                     <div id="orderEmpty" class="empty-order" hidden>
-                        Your order is empty. <a href="/">Find some books</a> and add your favourites.
+                        Your order is empty. <a href="/">Browse the shelf</a> or <a href="/finder">take the book finder</a>.
                     </div>
                     <div class="order-summary-line">
                         <span>Total</span>
@@ -114,18 +117,18 @@ import { books } from '../data/books.js';
     <footer class="site-footer">
         <div class="container footer-inner">
             <a class="brand" href="/">
-                <span class="brand-mark">BIMA</span>
-                <span class="brand-sub">BOOKS</span>
+                <span class="brand-mark">Bima Books</span>
+                <span class="brand-sub">STORYBOOKS & TOYS</span>
             </a>
-            <p>Made with snuggles for little readers.</p>
+            <p>Hand-picked books and toys for ages 0 to 12. Abuja delivery.</p>
             <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">@bima_books</a>
         </div>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script is:inline define:vars={{ books }}>
-        window.BIMA_BOOKS = books;
+    <script is:inline define:vars={{ books: catalog }}>
+        window.BIMA_CATALOG = books;
     </script>
     <script is:inline src="/config.js"></script>
     <script is:inline src="/cart.js"></script>

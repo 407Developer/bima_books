@@ -56,9 +56,30 @@ const steps = [
   }
 ];
 
-const books = window.BIMA_BOOKS || [];
+const books = window.BIMA_CATALOG || [];
 const config = window.BIMA_CONFIG || {};
 const cart = window.BimaCart;
+const AGE_RANGES = { newborn: [0, 0.3], baby: [0.3, 1], toddler: [1, 2], preschool: [2, 4] };
+
+function money(amount) {
+  return `₦${Number(amount).toLocaleString('en-NG')}`;
+}
+
+function ageMatches(book, answer) {
+  const range = AGE_RANGES[answer] || [0, 12];
+  return book.ages[0] <= range[1] && book.ages[1] >= range[0];
+}
+
+function bookLabel(book) {
+  if (book.kind === 'toy') return 'Learning toy';
+  if (book.kind === 'bundle') return 'Bundle';
+  return 'Storybook';
+}
+
+function pickReason(book) {
+  const kind = book.kind === 'toy' ? 'hands-on learning pick' : book.kind === 'bundle' ? 'ready-made set' : 'story pick';
+  return `${book.note}. A ${kind} for ages ${book.ages[0]}–${book.ages[1]}.`;
+}
 
 const startQuizBtn = document.getElementById('startQuiz');
 const exitQuizBtn = document.getElementById('exitQuiz');
@@ -301,7 +322,7 @@ function showResults() {
 
 function scoreBook(book) {
   let score = 0;
-  if (book.ages.includes(state.answers.age)) score += 4;
+  if (ageMatches(book, state.answers.age)) score += 4;
   Object.entries(state.answers).forEach(([key, value]) => {
     if (key !== 'age' && book.tags.includes(value)) score += 2;
   });
@@ -325,14 +346,14 @@ function renderPicks() {
     const source = frag.querySelector('source');
     const img = frag.querySelector('.book-cover-img');
 
-    source.srcset = book.imageWebp;
+    source.srcset = book.imageWebp || book.image;
     img.src = book.image;
-    img.alt = `${book.title} book cover`;
-    frag.querySelector('.book-badge').textContent = book.badge;
+    img.alt = `${book.title} cover`;
+    frag.querySelector('.book-badge').textContent = bookLabel(book);
     frag.querySelector('.book-tag').textContent = 'A BIMA pick';
     frag.querySelector('.book-title').textContent = book.title;
-    frag.querySelector('.book-author').textContent = book.author ? `by ${book.author}` : '';
-    frag.querySelector('.book-reason').textContent = book.reason;
+    frag.querySelector('.book-author').textContent = `${money(book.price)} · Ages ${book.ages[0]}–${book.ages[1]}`;
+    frag.querySelector('.book-reason').textContent = pickReason(book);
 
     const addBtn = frag.querySelector('.add-to-order');
     addBtn.dataset.bookId = book.id;
@@ -355,11 +376,11 @@ function renderShelf() {
       const frag = shelfCardTemplate.content.cloneNode(true);
       const source = frag.querySelector('source');
       const img = frag.querySelector('.shelf-cover-img');
-      source.srcset = book.imageWebp;
+      source.srcset = book.imageWebp || book.image;
       img.src = book.image;
-      img.alt = `${book.title} book cover`;
+      img.alt = `${book.title} cover`;
       frag.querySelector('.shelf-title').textContent = book.title;
-      frag.querySelector('.shelf-author').textContent = book.author ? `by ${book.author}` : '';
+      frag.querySelector('.shelf-author').textContent = `${money(book.price)} · ${bookLabel(book)}`;
 
       const addBtn = frag.querySelector('.shelf-add');
       addBtn.dataset.bookId = book.id;
@@ -401,18 +422,26 @@ function syncShelfButton(btn, id) {
 }
 
 function updateWhatsAppLink() {
-  const ids = cart.count() > 0 ? cart.read() : currentPicks.map((book) => book.id);
+  const ids = cart.count() > 0 ? cart.ids() : currentPicks.map((book) => book.id);
   if (ids.length === 0) return;
-  const items = ids.map((id) => books.find((book) => book.id === id)).filter(Boolean);
-  const lines = items.map((book) => `- ${book.title}`).join('\n');
+  const lines = ids.map((id) => {
+    const book = books.find((item) => item.id === id);
+    if (!book) return '';
+    const qty = cart.count() > 0 ? cart.qty(id) : 1;
+    return `- ${qty} x ${book.title} (${money(book.price * qty)})`;
+  }).filter(Boolean);
   const age = ageLabel(state.answers.age);
-  const message = `Hi BIMA Books! I'd like to order these books:\n\n${lines}\n\nMy little reader: ${age || 'not sure yet'}\nThank you!`;
+  const total = ids.reduce((sum, id) => {
+    const book = books.find((item) => item.id === id);
+    return book ? sum + book.price * (cart.count() > 0 ? cart.qty(id) : 1) : sum;
+  }, 0);
+  const message = `Hi BIMA Books! I'd like to order these books:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}\nMy little reader: ${age || 'not sure yet'}\nThank you!`;
   const number = (config.whatsappNumber || '').replace(/[^\d]/g, '');
   const encoded = encodeURIComponent(message);
   whatsappOrderBtn.href = number
     ? `https://wa.me/${number}?text=${encoded}`
     : `https://api.whatsapp.com/send?text=${encoded}`;
-  whatsappOrderBtn.textContent = `Order via WhatsApp (${ids.length})`;
+  whatsappOrderBtn.textContent = `Order via WhatsApp (${cart.count() || ids.length})`;
 }
 
 function ageLabel(value) {
