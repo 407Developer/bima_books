@@ -1,0 +1,4 @@
+source-images
+dist
+.astro
+.DS_Store

@@ -1,0 +1,134 @@
+---
+import '../styles/global.css';
+import { books } from '../data/books.js';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review your BIMA Books order and send it to us on WhatsApp. Cosy books for babies and little readers.">
+    <title>Your Order | BIMA Books</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="/" aria-label="BIMA Books home">
+                <span class="brand-mark">BIMA</span>
+                <span class="brand-sub">BOOKS</span>
+            </a>
+            <nav class="site-nav">
+                <a href="/" class="nav-order">Book finder</a>
+                <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">Instagram</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="checkout">
+        <div class="container">
+            <div class="checkout-header">
+                <span class="eyebrow">Your order</span>
+                <h1>Let's get these books home</h1>
+                <p>Check your stack, add your delivery details, then send it straight to BIMA on WhatsApp. We'll confirm availability, delivery and payment with you personally.</p>
+                <a class="checkout-back" href="/">← Back to the book finder</a>
+            </div>
+
+            <div class="checkout-grid">
+                <section class="checkout-card" aria-labelledby="order-title">
+                    <h2 id="order-title">Your book stack</h2>
+                    <div class="order-list" id="orderList"></div>
+                    <div id="orderEmpty" class="empty-order" hidden>
+                        Your order is empty. <a href="/">Find some books</a> and add your favourites.
+                    </div>
+                    <div class="order-summary-line">
+                        <span>Total</span>
+                        <span id="orderTotal">Confirmed on WhatsApp</span>
+                    </div>
+                    <a class="checkout-back" href="/">← Keep browsing</a>
+                </section>
+
+                <form class="checkout-card checkout-form" id="checkoutForm" novalidate>
+                    <h2>Delivery details</h2>
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="name">Your name</label>
+                            <input id="name" name="name" type="text" autocomplete="name" placeholder="e.g. Ada Obi" required>
+                        </div>
+                        <div class="field">
+                            <label for="phone">Phone number</label>
+                            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. 0801 234 5678" required>
+                        </div>
+                        <div class="field">
+                            <label for="email">Email <span class="field-hint">(for card payment)</span></label>
+                            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+                        </div>
+                        <div class="field full">
+                            <label for="address">Delivery address</label>
+                            <textarea id="address" name="address" autocomplete="street-address" placeholder="House number, street, area" required></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="e.g. Lagos" required>
+                        </div>
+                        <div class="field">
+                            <label for="state">State</label>
+                            <input id="state" name="state" type="text" autocomplete="address-level1" placeholder="e.g. Lagos" required>
+                        </div>
+                        <div class="field full">
+                            <label for="note">Anything else? <span class="field-hint">(optional)</span></label>
+                            <textarea id="note" name="note" placeholder="Gift note, delivery instructions, questions..."></textarea>
+                        </div>
+                    </div>
+
+                    <h2>Payment</h2>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="whatsapp" checked>
+                            <span>
+                                <strong>Order on WhatsApp</strong>
+                                <span>We'll confirm the total, delivery fee and payment details with you.</span>
+                            </span>
+                        </label>
+                        <label class="payment-option" id="paystackOptionLabel">
+                            <input type="radio" name="payment" value="paystack" id="paystackOption">
+                            <span>
+                                <strong>Pay online with Paystack</strong>
+                                <span id="paystackNote">Card payment is being set up. Please use WhatsApp for now.</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="checkout-actions">
+                        <button class="btn btn-whatsapp" type="submit" id="checkoutSubmit">Send order on WhatsApp</button>
+                        <p class="checkout-note" id="checkoutNote">You'll be taken to WhatsApp to send your order. No payment is taken on this site unless you choose Paystack.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <a class="brand" href="/">
+                <span class="brand-mark">BIMA</span>
+                <span class="brand-sub">BOOKS</span>
+            </a>
+            <p>Made with snuggles for little readers.</p>
+            <a href="https://www.instagram.com/bima_books/" target="_blank" rel="noopener">@bima_books</a>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script is:inline define:vars={{ books }}>
+        window.BIMA_BOOKS = books;
+    </script>
+    <script is:inline src="/config.js"></script>
+    <script is:inline src="/cart.js"></script>
+    <script is:inline src="/checkout.js"></script>
+</body>
+</html>
