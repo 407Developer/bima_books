@@ -33,17 +33,6 @@ const steps = [
     ]
   },
   {
-    id: 'sensory',
-    title: 'Which sensory play do they love?',
-    subtitle: 'The more touchy-feely, the better.',
-    options: [
-      { value: 'lift-flap', emoji: '👀', title: 'Lift-the-flaps', desc: 'Peekaboo surprises' },
-      { value: 'textures', emoji: '🧵', title: 'Touch & feel', desc: 'Soft, fuzzy, bumpy' },
-      { value: 'board', emoji: '📚', title: 'Classic board books', desc: 'Chew-proof & durable' },
-      { value: 'minimal', emoji: '✨', title: 'Simple & minimal', desc: 'High-contrast for tiny eyes' }
-    ]
-  },
-  {
     id: 'goal',
     title: "What's your goal right now?",
     subtitle: "We'll lean into it.",
@@ -316,7 +305,6 @@ function scoreBook(book) {
   Object.entries(state.answers).forEach(([key, value]) => {
     if (key !== 'age' && book.tags.includes(value)) score += 2;
   });
-  if (state.answers.sensory === 'lift-flap' && book.tags.includes('lift-flap')) score += 2;
   if (state.answers.goal === 'routine' && book.tags.includes('routine')) score += 2;
   return score;
 }
